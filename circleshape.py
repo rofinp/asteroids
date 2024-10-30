@@ -45,3 +45,16 @@ class CircleShape(pygame.sprite.Sprite):
             delta_time (float): The time delta since the last update, used to scale movement.
         """
         pass
+
+    def is_collision(self, object):
+        """
+        Checks if the circle intersects with another object.
+
+        Args:
+            object (CircleShape): The other object to check for intersection.
+
+        Returns:
+            bool: True if the circle intersects with the other object, False otherwise.
+        """
+        distance = self.position.distance_to(object.position)
+        return distance <= self.radius + object.radius

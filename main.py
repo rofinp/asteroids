@@ -43,6 +43,13 @@ def main():
         for thing in updateable:
             thing.update(delta_time)
 
+        for thing in asteroids:
+            if thing.is_collision(player):
+                print("Player collided with an asteroid!")
+                print("Game over!")
+                pygame.quit()
+                return
+
         screen.fill("black")
 
         for thing in drawable:
