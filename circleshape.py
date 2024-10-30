@@ -1,9 +1,24 @@
-"""Initializes pygame module."""
+"""Initializing modules..."""
 import pygame
 
 class CircleShape(pygame.sprite.Sprite):
-    """Initializes a CircleShape instance."""
+    """
+    Represents a circular shape in the game, inheriting from pygame's Sprite class.
+
+    Attributes:
+        position (pygame.Vector2): The current position of the circle.
+        velocity (pygame.Vector2): The current velocity of the circle.
+        radius (float): The radius of the circle.
+    """
     def __init__(self, x, y, radius):
+        """
+        Initializes a CircleShape object with a specified position and radius.
+
+        Args:
+            x (float): The x-coordinate of the circle's initial position.
+            y (float): The y-coordinate of the circle's initial position.
+            radius (float): The radius of the circle.
+        """
         if hasattr(self, "containers"):
             super().__init__(self.containers)
         else:
@@ -14,9 +29,19 @@ class CircleShape(pygame.sprite.Sprite):
         self.radius = radius
 
     def draw(self, screen):
-        """Draws the circle on the provided screen."""
+        """
+        Draws the circle on the provided screen. 
+
+        Args:
+            screen (pygame.Surface): The surface on which the circle is drawn.
+        """
         pass
 
     def update(self, delta_time):
-        """Updates the position and velocity of the circle based on the time delta."""
+        """
+        Updates the circle's position based on its velocity and the elapsed time.
+
+        Args:
+            delta_time (float): The time delta since the last update, used to scale movement.
+        """
         pass

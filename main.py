@@ -1,13 +1,11 @@
 """Initializes modules."""
 import pygame
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 from constants import (
     SCREEN_WIDTH,
     SCREEN_HEIGHT,
-    ASTEROID_MIN_RADIUS,
-    ASTEROID_KINDS,
-    ASTEROID_SPAWN_RATE,
-    ASTEROID_MAX_RADIUS,
 )
 
 def main():
@@ -15,11 +13,24 @@ def main():
     print("Starting asteroids!")
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    print(f"Screen width: {SCREEN_WIDTH}")
-    print(f"Screen height: {SCREEN_HEIGHT}")
     clock = pygame.time.Clock()
-    delta_time = 0
+
+    # Groups
+    updateable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
+
+    # Asteroids
+    Asteroid.containers = (asteroids, updateable, drawable)
+    AsteroidField.containers = updateable
+    asteroid_field = AsteroidField()
+
+    # Players
+    Player.containers = (updateable, drawable)
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
+    delta_time = 0
+
     while True:
         # This will check if the user has closed the window and exit the game loop if they do.
         # It will make the window's close button work.
@@ -28,10 +39,18 @@ def main():
                 print("Exiting asteroids!")
                 pygame.quit()
                 return
-        player.update(delta_time)
+
+        for thing in updateable:
+            thing.update(delta_time)
+
         screen.fill("black")
-        player.draw(screen)
+
+        for thing in drawable:
+            thing.draw(screen)
+
         pygame.display.flip()
+
+        # Limit the framerate to 60 FPS
         delta_time = clock.tick(60) / 1000
 
 if __name__ == "__main__":
