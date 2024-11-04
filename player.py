@@ -4,7 +4,12 @@ import pygame
 
 from bullet import Bullet
 from circleshape import CircleShape
-from constants import BULLET_SPEED, PLAYER_RADIUS, PLAYER_TURN_SPEED
+from constants import (
+    BULLET_SHOOT_SPEED,
+    BULLET_SHOOT_COOLDOWN,
+    PLAYER_RADIUS,
+    PLAYER_TURN_SPEED,
+)
 
 
 class Player(CircleShape):
@@ -27,6 +32,7 @@ class Player(CircleShape):
         """
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
+        self.cooldown_time = 0
 
     def draw(self, screen):
         """
@@ -60,7 +66,10 @@ class Player(CircleShape):
             delta_time (float): The time elapsed since the last update,
                                 used for movement and rotation speed.
         """
+        if self.cooldown_time > 0:
+            self.cooldown_time -= delta_time
         keys = pygame.key.get_pressed()
+
         if keys[pygame.K_a]:
             self.rotate(-delta_time)
         if keys[pygame.K_d]:
@@ -69,7 +78,7 @@ class Player(CircleShape):
             self.move(delta_time)
         if keys[pygame.K_s]:
             self.move(-delta_time)
-        if keys[pygame.K_SPACE]:
+        if keys[pygame.K_SPACE] and self.cooldown_time <= 0:
             self.shoot()
 
     def move(self, delta_time):
@@ -97,5 +106,8 @@ class Player(CircleShape):
         """
         Creates a bullet object and sets its velocity in the direction the player is facing.
         """
+        self.cooldown_time = BULLET_SHOOT_COOLDOWN
         bullet = Bullet(self.position.x, self.position.y)
-        bullet.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * BULLET_SPEED
+        bullet.velocity = (
+            pygame.Vector2(0, 1).rotate(self.rotation) * BULLET_SHOOT_SPEED
+        )
