@@ -1,4 +1,5 @@
 """Initializing modules..."""
+
 import random
 import pygame
 from asteroid import Asteroid
@@ -8,7 +9,7 @@ from constants import (
     ASTEROID_MIN_RADIUS,
     ASTEROID_MAX_RADIUS,
     ASTEROID_SPAWN_RATE,
-    ASTEROID_KINDS
+    ASTEROID_KINDS,
 )
 
 
@@ -22,6 +23,7 @@ class AsteroidField(pygame.sprite.Sprite):
             edge of the screen.
         spawn_timer (float): Timer to control the interval at which asteroids spawn.
     """
+
     edges = [
         [
             pygame.Vector2(1, 0),

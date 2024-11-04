@@ -1,5 +1,7 @@
 """Initializing modules..."""
+
 import pygame
+
 
 class CircleShape(pygame.sprite.Sprite):
     """
@@ -10,6 +12,7 @@ class CircleShape(pygame.sprite.Sprite):
         velocity (pygame.Vector2): The current velocity of the circle.
         radius (float): The radius of the circle.
     """
+
     def __init__(self, x, y, radius):
         """
         Initializes a CircleShape object with a specified position and radius.
@@ -30,7 +33,7 @@ class CircleShape(pygame.sprite.Sprite):
 
     def draw(self, screen):
         """
-        Draws the circle on the provided screen. 
+        Draws the circle on the provided screen.
 
         Args:
             screen (pygame.Surface): The surface on which the circle is drawn.

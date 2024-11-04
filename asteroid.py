@@ -1,6 +1,8 @@
 """Initializing modules..."""
+
 import pygame
 from circleshape import CircleShape
+
 
 class Asteroid(CircleShape):
     """
@@ -11,6 +13,7 @@ class Asteroid(CircleShape):
         radius (float): The radius of the asteroid.
         velocity (pygame.Vector2): The velocity vector of the asteroid.
     """
+
     def __init__(self, x, y, radius):
         """
         Initializes an Asteroid object with the given position and radius.
@@ -29,7 +32,7 @@ class Asteroid(CircleShape):
         Args:
             screen (pygame.Surface): The screen surface where the asteroid is drawn.
         """
-        pygame.draw.circle(screen, "white", self.position, self.radius, 2)
+        pygame.draw.circle(screen, "red", self.position, self.radius, 2)
 
     def update(self, delta_time):
         """

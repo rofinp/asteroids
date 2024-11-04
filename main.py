@@ -1,12 +1,16 @@
 """Initializes modules."""
+
 import pygame
-from player import Player
+
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
+from bullet import Bullet
 from constants import (
-    SCREEN_WIDTH,
     SCREEN_HEIGHT,
+    SCREEN_WIDTH,
 )
+from player import Player
+
 
 def main():
     """The Main Function"""
@@ -19,11 +23,15 @@ def main():
     updateable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
+    bullets = pygame.sprite.Group()
 
     # Asteroids
     Asteroid.containers = (asteroids, updateable, drawable)
     AsteroidField.containers = updateable
     asteroid_field = AsteroidField()
+
+    # Bullet
+    Bullet.containers = (bullets, updateable, drawable)
 
     # Players
     Player.containers = (updateable, drawable)
@@ -59,6 +67,7 @@ def main():
 
         # Limit the framerate to 60 FPS
         delta_time = clock.tick(60) / 1000
+
 
 if __name__ == "__main__":
     main()

@@ -1,10 +1,11 @@
 """Initializing modules..."""
+
 import pygame
+
+from bullet import Bullet
 from circleshape import CircleShape
-from constants import (
-    PLAYER_RADIUS,
-    PLAYER_TURN_SPEED,
-    )
+from constants import BULLET_SPEED, PLAYER_RADIUS, PLAYER_TURN_SPEED
+
 
 class Player(CircleShape):
     """
@@ -15,6 +16,7 @@ class Player(CircleShape):
         rotation (float): The current rotation angle of the player in degrees.
         radius (float): The radius of the player's hitbox.
     """
+
     def __init__(self, x, y):
         """
         Initializes a Player object with a specified position and default radius.
@@ -26,12 +28,36 @@ class Player(CircleShape):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
 
+    def draw(self, screen):
+        """
+        Draws the player's triangle shape on the provided screen.
+
+        Args:
+            screen (pygame.Surface): The screen surface where the player is drawn.
+        """
+        pygame.draw.polygon(screen, "green", self.triangle(), 2)
+
+    def triangle(self):
+        """
+        Calculates the vertices of a triangle to represent the player visually.
+
+        Returns:
+            list[pygame.Vector2]: A list of three points forming a triangle
+                                  shape for the player.
+        """
+        forward = pygame.Vector2(0, 1).rotate(self.rotation)
+        right = pygame.Vector2(0, 1).rotate(self.rotation + 90) * self.radius / 1.5
+        a = self.position + forward * self.radius
+        b = self.position - forward * self.radius - right
+        c = self.position - forward * self.radius + right
+        return [a, b, c]
+
     def update(self, delta_time):
         """
         Updates the player's rotation and position based on keyboard input.
 
         Args:
-            delta_time (float): The time elapsed since the last update, 
+            delta_time (float): The time elapsed since the last update,
                                 used for movement and rotation speed.
         """
         keys = pygame.key.get_pressed()
@@ -43,6 +69,8 @@ class Player(CircleShape):
             self.move(delta_time)
         if keys[pygame.K_s]:
             self.move(-delta_time)
+        if keys[pygame.K_SPACE]:
+            self.shoot()
 
     def move(self, delta_time):
         """
@@ -65,26 +93,9 @@ class Player(CircleShape):
         """
         self.rotation += delta_time * PLAYER_TURN_SPEED
 
-    def triangle(self):
+    def shoot(self):
         """
-        Calculates the vertices of a triangle to represent the player visually.
-
-        Returns:
-            list[pygame.Vector2]: A list of three points forming a triangle 
-                                  shape for the player.
+        Creates a bullet object and sets its velocity in the direction the player is facing.
         """
-        forward = pygame.Vector2(0, 1).rotate(self.rotation)
-        right = pygame.Vector2(0, 1).rotate(self.rotation + 90) * self.radius / 1.5
-        a = self.position + forward * self.radius
-        b = self.position - forward * self.radius - right
-        c = self.position - forward * self.radius + right
-        return [a, b, c]
-
-    def draw(self, screen):
-        """
-        Draws the player's triangle shape on the provided screen.
-
-        Args:
-            screen (pygame.Surface): The screen surface where the player is drawn.
-        """
-        pygame.draw.polygon(screen, "white", self.triangle(), 2)
+        bullet = Bullet(self.position.x, self.position.y)
+        bullet.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * BULLET_SPEED
