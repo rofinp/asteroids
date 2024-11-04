@@ -1,15 +1,19 @@
 """Initializing modules..."""
 
 import random
+
 import pygame
+
 from asteroid import Asteroid
 from constants import (
-    SCREEN_WIDTH,
-    SCREEN_HEIGHT,
-    ASTEROID_MIN_RADIUS,
-    ASTEROID_MAX_RADIUS,
-    ASTEROID_SPAWN_RATE,
     ASTEROID_KINDS,
+    ASTEROID_MAX_RADIUS,
+    ASTEROID_MAX_SPEED,
+    ASTEROID_MIN_RADIUS,
+    ASTEROID_MIN_SPEED,
+    ASTEROID_SPAWN_RATE,
+    SCREEN_HEIGHT,
+    SCREEN_WIDTH,
 )
 
 
@@ -82,7 +86,7 @@ class AsteroidField(pygame.sprite.Sprite):
 
             # spawn a new asteroid at a random edge
             edge = random.choice(self.edges)
-            speed = random.randint(40, 100)
+            speed = random.randint(ASTEROID_MIN_SPEED, ASTEROID_MAX_SPEED)
             velocity = edge[0] * speed
             velocity = velocity.rotate(random.randint(-30, 30))
             position = edge[1](random.uniform(0, 1))
