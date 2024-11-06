@@ -1,7 +1,11 @@
 """Initializing modules..."""
 
 import pygame
+
+import random
+
 from circleshape import CircleShape
+from constants import ASTEROID_MIN_RADIUS
 
 
 class Asteroid(CircleShape):
@@ -24,6 +28,31 @@ class Asteroid(CircleShape):
             radius (float): The radius of the asteroid.
         """
         super().__init__(x, y, radius)
+
+    def split(self):
+        """
+        Splits the asteroid into two smaller asteroids, each moving in a different direction.
+        The new asteroids are slightly faster and smaller than the original.
+        """
+        self.kill()
+
+        if self.radius <= ASTEROID_MIN_RADIUS:
+            return
+
+        # Generate a random angle between 20 and 50 degrees
+        random_angle = random.uniform(20, 50)
+
+        velocity_one = self.velocity.rotate(random_angle)
+        velocity_two = self.velocity.rotate(-random_angle)
+
+        new_radius = self.radius - ASTEROID_MIN_RADIUS
+
+        # Create two smaller asteroids at the current position
+        asteroid_one = Asteroid(self.position.x, self.position.y, new_radius)
+        asteroid_two = Asteroid(self.position.x, self.position.y, new_radius)
+
+        asteroid_one.velocity = velocity_one * 1.2
+        asteroid_two.velocity = velocity_two * 1.2
 
     def draw(self, screen):
         """
