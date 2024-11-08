@@ -1,7 +1,5 @@
 """Initializes modules."""
 
-import pygame
-
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from bullet import Bullet
@@ -13,9 +11,11 @@ from player import Player
 
 
 def main():
-    """The Main Function"""
+    import pygame
+
     print("Starting asteroids!")
     pygame.init()
+    # Set GUI window screen
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
 
@@ -69,6 +69,7 @@ def main():
         for thing in drawable:
             thing.draw(screen)
 
+        # Refresh the screen
         pygame.display.flip()
 
         # Limit the framerate to 60 FPS

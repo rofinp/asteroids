@@ -5,8 +5,8 @@ import pygame
 from bullet import Bullet
 from circleshape import CircleShape
 from constants import (
-    BULLET_SHOOT_SPEED,
     BULLET_SHOOT_COOLDOWN,
+    BULLET_SHOOT_SPEED,
     PLAYER_RADIUS,
     PLAYER_TURN_SPEED,
 )
@@ -19,6 +19,7 @@ class Player(CircleShape):
     Attributes:
         position (pygame.Vector2): The current position of the player on the screen.
         rotation (float): The current rotation angle of the player in degrees.
+        cooldown (float): The cooldown time of the player's bullet shoot animation.
         radius (float): The radius of the player's hitbox.
     """
 
@@ -34,15 +35,6 @@ class Player(CircleShape):
         self.rotation = 0
         self.cooldown_time = 0
 
-    def draw(self, screen):
-        """
-        Draws the player's triangle shape on the provided screen.
-
-        Args:
-            screen (pygame.Surface): The screen surface where the player is drawn.
-        """
-        pygame.draw.polygon(screen, "green", self.triangle(), 2)
-
     def triangle(self):
         """
         Calculates the vertices of a triangle to represent the player visually.
@@ -57,6 +49,15 @@ class Player(CircleShape):
         b = self.position - forward * self.radius - right
         c = self.position - forward * self.radius + right
         return [a, b, c]
+
+    def draw(self, screen):
+        """
+        Draws the player's triangle shape on the provided screen.
+
+        Args:
+            screen (pygame.Surface): The screen surface where the player is drawn.
+        """
+        pygame.draw.polygon(screen, "green", self.triangle(), 2)
 
     def update(self, delta_time):
         """
