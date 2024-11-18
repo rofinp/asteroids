@@ -66,8 +66,8 @@ def main():
 
         screen.fill("black")
 
-        for thing in drawable:
-            thing.draw(screen)
+        for object in drawable:
+            object.draw(screen)
 
         # Refresh the screen
         pygame.display.flip()

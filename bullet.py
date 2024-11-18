@@ -32,7 +32,7 @@ class Bullet(CircleShape):
         Args:
           screen (pygame.Surface): The screen surface where the bullet is drawn.
         """
-        pygame.draw.circle(screen, "yellow", self.position, self.radius, 2)
+        pygame.draw.circle(screen, "yellow", self.position, self.radius, 1)
 
     def update(self, delta_time):
         """
